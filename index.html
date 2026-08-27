@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Currency Converter</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo">
+        <i class="fa-solid fa-coins logo-icon"></i>
+        <h1>CurrencyXpress</h1>
+      </div>
+      <div class="status-container">
+        <span id="network-badge" class="badge online">
+          <i class="fa-solid fa-wifi"></i> <span id="network-status-text">Online</span>
+        </span>
+        <span id="last-updated-badge" class="badge info">
+          <i class="fa-regular fa-clock"></i> <span id="last-updated-text">Rates: Fetching...</span>
+        </span>
+      </div>
+    </header>
+
+    <!-- Offline Alert Banner -->
+    <div id="offline-banner" class="banner hidden">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <span>You are currently offline. Using cached exchange rates from <strong id="offline-timestamp">--</strong>.</span>
+    </div>
+
+    <!-- Main Grid Layout -->
+    <main class="main-content">
+      <!-- Converter Card -->
+      <section class="card converter-card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-calculator"></i> Currency Converter</h2>
+          <button id="add-favorite-btn" class="btn-icon" title="Add current pair to favorites">
+            <i class="fa-regular fa-star" id="favorite-star-icon"></i>
+          </button>
+        </div>
+
+        <form id="converter-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="amount-input">Amount</label>
+            <div class="input-wrapper">
+              <input type="number" id="amount-input" value="1" min="0" step="any" placeholder="Enter amount" required />
+            </div>
+          </div>
+
+          <div class="currency-selectors">
+            <div class="form-group">
+              <label for="from-currency-select">From</label>
+              <div class="select-wrapper">
+                <select id="from-currency-select"></select>
+              </div>
+            </div>
+
+            <button type="button" id="swap-btn" class="swap-button" title="Swap Currencies">
+              <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            </button>
+
+            <div class="form-group">
+              <label for="to-currency-select">To</label>
+              <div class="select-wrapper">
+                <select id="to-currency-select"></select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conversion Result Section -->
+          <div class="result-container">
+            <div class="result-amount-display">
+              <span id="result-from-text">1.00 USD =</span>
+              <div id="result-value" class="result-value">0.00 EUR</div>
+            </div>
+            <div class="rate-details">
+              <span id="exchange-rate-info">1 USD = -- EUR</span>
+              <span id="inverse-rate-info">1 EUR = -- USD</span>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Favorites Section -->
+      <section class="card favorites-card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-star"></i> Favorite Pairs</h2>
+        </div>
+        <div id="favorites-list" class="favorites-list">
+          <p class="empty-state">No favorite currency pairs saved yet. Click the star icon to pin your favorite pair!</p>
+        </div>
+      </section>
+
+      <!-- Historical Chart Section -->
+      <section class="card chart-card">
+        <div class="card-header flex-header">
+          <h2><i class="fa-solid fa-chart-line"></i> Historical Rates</h2>
+          <div class="timeframe-selector">
+            <button class="timeframe-btn active" data-days="7">7D</button>
+            <button class="timeframe-btn" data-days="30">30D</button>
+            <button class="timeframe-btn" data-days="90">90D</button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="historical-chart"></canvas>
+        </div>
+      </section>
+
+      <!-- Conversion History Section -->
+      <section class="card history-card">
+        <div class="card-header flex-header">
+          <h2><i class="fa-solid fa-clock-rotate-left"></i> Conversion History</h2>
+          <button id="clear-history-btn" class="btn-secondary btn-sm">Clear History</button>
+        </div>
+        <div class="history-list-wrapper">
+          <ul id="history-list" class="history-list">
+            <li class="empty-state">No recent conversions logged yet.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Data provided by ExchangeRate-API • Built with HTML, CSS, & JS</p>
+    </footer>
+  </div>
+
+  <script src="chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
